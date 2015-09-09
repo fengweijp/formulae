@@ -3,6 +3,7 @@ var Formulae = Formulae || {};
 Formulae.parseExpression = (function () {
 
 	var parsePrimitive = function (arg) {
+		console.log(arg);
 		if (arg[0] === '"') {
 			if (arg[arg.length - 1] != '"') {
 				throw 'Weird string here! Should end with "';
@@ -10,9 +11,8 @@ Formulae.parseExpression = (function () {
 			return arg.substr(1, arg.length - 2);
 		}
 
-		var tryFloat = parseFloat(arg);
-		if (!isNaN(tryFloat)) {
-			return tryFloat;
+		if (!isNaN(arg)) {
+			return parseFloat(arg);
 		}
 
 		if (arg.match(/^[a-zA-Z]+[0-9]+$/)) {
