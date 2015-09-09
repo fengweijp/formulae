@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <script src="table.js"></script>
     <script src="parser.js"></script>
+    <script src="fn.js"></script>
     <script src="formulae.js"></script>
     <script>
-      console.log(Formulae.evaluate('=SUM(1,2,SUM(1,7,SUM(4,4)))'));
+      console.log(Formulae.evaluate('=SUM(1,2,SPLAT(1,7))'));
     </script>
   </head>
   <body>

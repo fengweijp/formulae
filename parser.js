@@ -3,7 +3,6 @@ var Formulae = Formulae || {};
 Formulae.parseExpression = (function () {
 
 	var parsePrimitive = function (arg) {
-		console.log(arg);
 		if (arg[0] === '"') {
 			if (arg[arg.length - 1] != '"') {
 				throw 'Weird string here! Should end with "';

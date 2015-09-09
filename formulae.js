@@ -14,12 +14,19 @@ Formulae.evaluate = (function () {
 		if (!Array.isArray(result)) {
 			return result;
 		}
+
 		var name = result.shift();
-		var src = Formulae.fn[name.toLowerCase()];
-		if (!src) {
-			throw 'Invalid function name "' + result + '".';
+		var args = flatten(result.map(unravel));
+
+		var fn = Formulae.fn[name.toLowerCase()];
+		if (!fn) {
+			throw 'Invalid function name "' + name + '".';
 		}
-		return src(result.map(unravel));
+		return fn(args);
+	};
+
+	var flatten = function (array) {
+		return Array.concat.apply([], array);
 	};
 
 	return evaluate;

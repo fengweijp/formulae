@@ -17,5 +17,8 @@ Formulae.fn = {
 			str += args[i];
 		}
 		return str;
+	},
+	splat : function (args) {
+		return args;
 	}
 };
