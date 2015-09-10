@@ -2,11 +2,13 @@ var Formulae = Formulae || {};
 
 Formulae.evaluate = (function () {
 
+	var f = Formulae;
+
 	var evaluate = function (value) {
 		if (value[0] !== '=') {
 			throw 'Invalid value; should start with "="';
 		}
-		var result = Formulae.parseExpression(value.substr(1));
+		var result = f.parseExpression(value.substr(1));
 		return unravel(result);
 	};
 
@@ -16,17 +18,13 @@ Formulae.evaluate = (function () {
 		}
 
 		var name = result.shift();
-		var args = flatten(result.map(unravel));
+		var args = f.utils.flatten(result.map(unravel));
 
-		var fn = Formulae.fn[name.toLowerCase()];
+		var fn = f.fn[name.toLowerCase()];
 		if (!fn) {
 			throw 'Invalid function name "' + name + '".';
 		}
 		return fn(args);
-	};
-
-	var flatten = function (array) {
-		return Array.concat.apply([], array);
 	};
 
 	return evaluate;
