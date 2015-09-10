@@ -15,7 +15,11 @@ Formulae.parseExpression = (function () {
 		}
 
 		if (arg.match(/^[a-zA-Z]+[0-9]+$/)) {
-			return Formulae.table.cellContent(arg);
+			return Formulae.cells.single(arg);
+		}
+
+		if (arg.match(/^[a-zA-Z]+[0-9]+\:[a-zA-Z]+[0-9]+$/)) {
+			return Formulae.cells.interval(arg);
 		}
 
 		throw 'This is not a number, string, nor cell. What the hell is "' + arg + '"?';

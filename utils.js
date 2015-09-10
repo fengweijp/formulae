@@ -10,6 +10,9 @@ Formulae.utils = {
 	},
 
 	flatten : function (array) {
+		if (array.length === 0) {
+			return array;
+		}
 		return Array.concat.apply([], array);
 	}
 
