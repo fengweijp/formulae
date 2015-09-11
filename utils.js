@@ -9,11 +9,16 @@ Formulae.utils = {
 		});
 	},
 
-	flatten : function (array) {
-		if (array.length === 0) {
-			return array;
+	flatten : function () {
+		var flat = [], i;
+		for (i = 0; i < arguments.length; i++) {
+			if (arguments[i] instanceof Array) {
+				flat = flat.concat(Formulae.utils.flatten.apply(null, arguments[i]));
+			} else {
+				flat.push(arguments[i]);
+			}
 		}
-		return [].concat.apply([], array);
+		return flat;
 	}
 
  };

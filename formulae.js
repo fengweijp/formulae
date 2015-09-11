@@ -1,6 +1,6 @@
 var Formulae = Formulae || {};
 
-Formulae.evaluate = (function () {
+Formulae.main = (function () {
 
 	var f = Formulae;
 
@@ -14,6 +14,9 @@ Formulae.evaluate = (function () {
 
 	var unravel = function (result) {
 		if (!Array.isArray(result)) {
+			if (typeof result === 'function') {
+				return result();
+			}
 			return result;
 		}
 
@@ -27,5 +30,10 @@ Formulae.evaluate = (function () {
 		return fn(args);
 	};
 
-	return evaluate;
+	return {
+		evaluate : evaluate,
+		unravel : unravel
+	};
 })();
+
+Formulae.evaluate = Formulae.main.evaluate;

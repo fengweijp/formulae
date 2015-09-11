@@ -6,11 +6,15 @@ Formulae.cells = (function () {
 
 	var single = function (cell) {
 		var a = cellToArray(cell);
-		return Formulae.tableAccess.get(a[0], a[1]);
+		var text = Formulae.tableAccess.get(a[0], a[1]);
+		if (isNaN(text)) {
+			return text;
+		}
+		return parseFloat(text);
 	};
 
-	var interval = function (interval) {
-		return ['splat'].concat(expand(interval).map(single));
+	var interval = function (str) {
+		return ['splat'].concat(expand(str).map(single));
 	};
 
 	var cellToArray = function (cell) {
@@ -49,7 +53,7 @@ Formulae.cells = (function () {
 		var expand = [];
 		for (var letter = it[0][0]; letter <= it[0][1]; letter++) {
 			for (var number = it[1][0]; number <= it[1][1]; number++) {
-				expand.push(toLetters(letter) + number);
+				expand.push(toCell(letter, number));
 			}
 		}
 		return expand;
@@ -79,11 +83,31 @@ Formulae.cells = (function () {
 		return columnName;
 	};
 
+	var toCell = function (column, row) {
+		return toLetters(column) + row;
+	};
+
+	var lazy = {
+		single : function (cell) {
+			var r =  function () {
+				return single(cell);
+			};
+			r.cell = cell;
+			return r;
+		},
+		interval : function (str) {
+			return ['splat'].concat(expand(str).map(lazy.single));
+		}
+	};
+
 	return {
 		expand : expand,
 		single : single,
 		interval : interval,
 		toNumber : toNumber,
-		toLetters : toLetters
+		toLetters : toLetters,
+		toCell : toCell,
+		cellToArray : cellToArray,
+		lazy : lazy
 	};
 })();
