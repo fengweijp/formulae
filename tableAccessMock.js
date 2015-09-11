@@ -3,16 +3,18 @@ var Formulae = Formulae || {};
 Formulae.tableAccess = (function () {
 
 	var table = [
-		['1', '2', '=SUM(1,2)'],
+		['1', 2, '=SUM(1,2)'],
 		['=SUM(B2, 13)', '=SUM(A1:1)', 'huez']
 	];
+
+	var result = [[], []];
 
 	return {
 		get : function (i, j) {
 			return table[parseInt(j) - 1][parseInt(i) - 1];
 		},
 		set : function (i, j, v) {
-			table[parseInt(j) - 1][parseInt(i) - 1] = v;
+			result[parseInt(j) - 1][parseInt(i) - 1] = v;
 		},
 		rows : function () {
 			return table.length;
@@ -21,6 +23,7 @@ Formulae.tableAccess = (function () {
 			return table[0].length;
 		},
 
-		table : table
+		table : table,
+		result : result
 	};
 })();

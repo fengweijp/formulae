@@ -4,13 +4,17 @@ Formulae.cells = (function () {
 
 	var f = Formulae;
 
-	var single = function (cell) {
+	var singleFrom = function (cell, from) {
 		var a = cellToArray(cell);
-		var text = Formulae.tableAccess.get(a[0], a[1]);
+		var text = from(a[0], a[1]);
 		if (isNaN(text)) {
 			return text;
 		}
 		return parseFloat(text);
+	};
+
+	var single = function (cell) {
+		singleFrom(cell, Formulae.tableAccess.get);
 	};
 
 	var interval = function (str) {
@@ -90,7 +94,7 @@ Formulae.cells = (function () {
 	var lazy = {
 		single : function (cell) {
 			var r =  function () {
-				return single(cell);
+				return singleFrom(cell, Formulae.tree.cache);
 			};
 			r.cell = cell;
 			return r;

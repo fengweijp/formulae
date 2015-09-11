@@ -7,6 +7,10 @@ Formulae.tree = (function () {
 		var started = {};
 		var resolved = {};
 
+		Formulae.tree.cache = function (i, j) {
+			return resolved[Formulae.cells.toCell(i, j)];
+		};
+
 		var resolve = function (i, j) {
 			var cell = Formulae.cells.toCell(i, j);
 			if (resolved[cell]) {
@@ -32,10 +36,10 @@ Formulae.tree = (function () {
 					}
 				});
 
-				var text = Formulae.main.unravel(result);
-				Formulae.tableAccess.set(i, j, text);
+				content = Formulae.main.unravel(result);
 			}
-			resolved[cell] = true;
+			Formulae.tableAccess.set(i, j, content);
+			resolved[cell] = content;
 		};
 
 		for (i = 1; i <= Formulae.tableAccess.columns(); i++) {
