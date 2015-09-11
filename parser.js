@@ -18,7 +18,7 @@ Formulae.parseExpression = (function () {
 			return Formulae.cells.single(arg);
 		}
 
-		if (arg.match(/^[a-zA-Z]+[0-9]+\:[a-zA-Z]+[0-9]+$/)) {
+		if (arg.match(/^[a-zA-Z]*[0-9]*\:[a-zA-Z]*[0-9]*$/) && arg.match(/^[a-zA-Z0-9]+\:[a-zA-Z0-9]+$/)) {
 			return Formulae.cells.interval(arg);
 		}
 

@@ -14,8 +14,23 @@ Formulae.cells = (function () {
 	};
 
 	var cellToArray = function (cell) {
-		var r = /^([A-Z]+)([0-9]+)$/.exec(cell);
-		r.shift();
+		var r = /^([A-Z]+)([0-9]+)$/.exec(cell).slice(1, 3);
+		return r.map(function (t) {
+			if (t.match(/^([A-Z]+)$/)) {
+				return toNumber(t);
+			}
+			return t;
+		});
+	};
+
+	var permissiveCellToArray = function (cell) {
+		var r = /^([A-Z]*)([0-9]*)$/.exec(cell).slice(1, 3);
+		if (r[0] === '') {
+			r[0] = '' + Formulae.tableAccess.columns();
+		}
+		if (r[1] === '') {
+			r[1] = '' + Formulae.tableAccess.rows();
+		}
 		return r.map(function (t) {
 			if (t.match(/^([A-Z]+)$/)) {
 				return toNumber(t);
@@ -27,7 +42,7 @@ Formulae.cells = (function () {
 	var expand = function (interval) {
 		var borders = interval.toUpperCase().split(':');
 		var it = f.utils.transpose(borders.map(function (b) {
-			return cellToArray(b);
+			return permissiveCellToArray(b);
 		})).map(function (r) {
 			return r.sort();
 		});

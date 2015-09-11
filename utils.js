@@ -13,7 +13,7 @@ Formulae.utils = {
 		if (array.length === 0) {
 			return array;
 		}
-		return Array.concat.apply([], array);
+		return [].concat.apply([], array);
 	}
 
  };
