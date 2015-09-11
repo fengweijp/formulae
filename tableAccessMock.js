@@ -4,10 +4,11 @@ Formulae.tableAccess = (function () {
 
 	var table = [
 		['1', 2, '=SUM(1,2)'],
-		['=SUM(B2, 13)', '=SUM(A1:1)', 'huez']
+		['=SUM(B2, 13)', '=SUM(A1:1)', 'huez'],
+		['=PI()', '=AVERAGE(A1:1)', '=STDEV(A3:B3)']
 	];
 
-	var result = [[], []];
+	var result = [[], [], []];
 
 	return {
 		get : function (i, j) {
