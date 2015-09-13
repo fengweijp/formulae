@@ -65,7 +65,7 @@ Formulae.parseExpression = (function () {
 				if (c === '"') {
 					currentArg += '"';
 					stringMode = true;
-				} else if (c === ',' && deepnessCount == 0) {
+				} else if (c === ',' && deepnessCount === 0) {
 					args.push(currentArg.trim());
 					currentArg = '';
 				} else if (c === '(') {
@@ -73,7 +73,7 @@ Formulae.parseExpression = (function () {
 					currentArg += c;
 				} else if (c === ')') {
 					if (deepnessCount === 0) {
-						throw 'Cannot close ) without opening it.'
+						throw 'Cannot close ) without opening it.';
 					}
 					currentArg += c;
 					deepnessCount--;

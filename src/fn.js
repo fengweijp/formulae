@@ -22,7 +22,7 @@ Formulae.fn = (function () {
 		if (typeof el !== 'number') {
 			throw 'Formula works only with numbers...';
 		}
-	}
+	};
 
 	var api = {
 		splat : function (args) {
@@ -138,7 +138,7 @@ Formulae.fn = (function () {
 		};
 	});
 
-	api['int'] = api['trunc'] = api.floor;
+	api.int = api.trunc = api.floor;
 
 	return api;
 })();
