@@ -30,7 +30,7 @@ Formulae.cells = (function () {
 			if (t.match(/^([A-Z]+)$/)) {
 				return toNumber(t);
 			}
-			return t;
+			return parseInt(t);
 		});
 	};
 
@@ -46,16 +46,21 @@ Formulae.cells = (function () {
 			if (t.match(/^([A-Z]+)$/)) {
 				return toNumber(t);
 			}
-			return t;
+			return parseInt(t);
 		});
 	};
 
 	var expand = function (interval) {
 		var borders = interval.toUpperCase().split(':');
+		console.log(f.utils.transpose(borders.map(function (b) {
+			return permissiveCellToArray(b);
+		})));
 		var it = f.utils.transpose(borders.map(function (b) {
 			return permissiveCellToArray(b);
 		})).map(function (r) {
-			return r.sort();
+			return r.sort(function (a, b) {
+				return a - b;
+			});
 		});
 		var expand = [];
 		for (var letter = it[0][0]; letter <= it[0][1]; letter++) {

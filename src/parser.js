@@ -30,7 +30,7 @@ Formulae.parseExpression = (function () {
 			return Formulae.cells.lazy.interval(arg);
 		}
 
-		throw 'This is not a number, string, nor cell. What the hell is "' + arg + '"?';
+		throw 'This is not a number, string, boolean, nor cell ref. What the hell is "' + arg + '"?';
 	};
 
 	var parseExpression = function (exp) {
