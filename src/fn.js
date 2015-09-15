@@ -155,8 +155,20 @@ Formulae.fn = (function () {
 		},
 		not : function (args) {
 			assertArgs(args, 1);
-			assertBoolean(args[0]);
+			assertBool(args[0]);
 			return !args[0];
+		},
+		and : function (args) {
+			args.forEach(assertBool);
+			return args.reduce(function(total, value) {
+				return total && value;
+			}, true);
+		},
+		or : function (args) {
+			args.forEach(assertBool);
+			return args.reduce(function(total, value) {
+				return total || value;
+			}, false);
 		}
 	};
 

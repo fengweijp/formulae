@@ -7,9 +7,10 @@ Formulae.tableAccess = (function () {
 		['=SUM(B2, 13)', '=SUM(A1:1)', 'huez'],
 		['=PI()', '=AVERAGE(A1:1)', '=STDEV(A3:B3)'],
 		['=TRUE', '=IF(A4,"true","false")', '=IF(GET(B1, C1), B1, C1)'],
+		['=AND(TRUE, FALSE)', '=IF(OR(TRUE,A5),A3,E())', 'huez']
 	];
 
-	var result = [[], [], [], []];
+	var result = [[], [], [], [], []];
 
 	return {
 		get : function (i, j) {

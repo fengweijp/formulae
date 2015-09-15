@@ -27,7 +27,7 @@ Formulae.tree = (function () {
 					return fn.cell;
 				});
 				dependencies.forEach(function (dep) {
-					if (!resolved[dep]) {
+					if (typeof resolved[dep] === 'undefined') {
 						if (started[dep]) {
 							throw 'Warning! Cyclic dependency! Cells ' + cell + ' and ' + dep + ' are directly or inderctly linked cyclic.';
 						}
