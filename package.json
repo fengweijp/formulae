@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Simple lib to parse Excel-like formulae placed in a table structure.",
   "author": "Luan Nico <luannico27@gmail.com>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/luanpotter/formulae"
@@ -29,6 +30,7 @@
     "grunt-contrib-clean": "~0.6.0"
   },
   "dependencies": {
-    "grunt-qunit-serverless": "~0.3.3"
+    "grunt-qunit-serverless": "~0.3.3",
+    "requirejs": "^2.1.20"
   }
 }
