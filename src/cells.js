@@ -7,6 +7,9 @@ Formulae.cells = (function () {
 	var singleFrom = function (cell, from) {
 		var a = cellToArray(cell);
 		var text = from(a[0], a[1]);
+		if (text === true || text === false || text === '') {
+			return text;
+		}
 		if (isNaN(text)) {
 			return text;
 		}

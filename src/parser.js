@@ -3,6 +3,14 @@ var Formulae = Formulae || {};
 Formulae.parseExpression = (function () {
 
 	var parsePrimitive = function (arg) {
+		if (arg.trim().toLowerCase() === 'true') {
+			return true;
+		}
+
+		if (arg.trim().toLowerCase() === 'false') {
+			return false;
+		}
+
 		if (arg[0] === '"') {
 			if (arg[arg.length - 1] != '"') {
 				throw 'Weird string here! Should end with "';

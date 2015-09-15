@@ -24,6 +24,12 @@ Formulae.fn = (function () {
 		}
 	};
 
+	var assertBool = function (el) {
+		if (typeof el !== 'boolean') {
+			throw 'Formula works only with booleans...';
+		}
+	};
+
 	var api = {
 		splat : function (args) {
 			return args;
@@ -121,6 +127,36 @@ Formulae.fn = (function () {
 		max : function (args) {
 			args.forEach(assertNumber);
 			return Math.max.apply(null, args);
+		},
+
+		eq : function (args) {
+			assertArgs(args, 2);
+			return args[0] == args[1];
+		},
+		lt : function (args) {
+			assertArgs(args, 2);
+			args.forEach(assertNumber);
+			return args[0] < args[1];
+		},
+		gt : function (args) {
+			assertArgs(args, 2);
+			args.forEach(assertNumber);
+			return args[0] > args[1];
+		},
+		let : function (args) {
+			assertArgs(args, 2);
+			args.forEach(assertNumber);
+			return args[0] <= args[1];
+		},
+		get : function (args) {
+			assertArgs(args, 2);
+			args.forEach(assertNumber);
+			return args[0] >= args[1];
+		},
+		not : function (args) {
+			assertArgs(args, 1);
+			assertBoolean(args[0]);
+			return !args[0];
 		}
 	};
 
@@ -139,6 +175,11 @@ Formulae.fn = (function () {
 	});
 
 	api.int = api.trunc = api.floor;
+	api['if'] = function (args) {
+		assertArgs(args, 3);
+		assertBool(args[0]);
+		return args[args[0] ? 1 : 2];
+	};
 
 	return api;
 })();

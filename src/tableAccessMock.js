@@ -5,10 +5,11 @@ Formulae.tableAccess = (function () {
 	var table = [
 		['1', 2, '=SUM(1,2)'],
 		['=SUM(B2, 13)', '=SUM(A1:1)', 'huez'],
-		['=PI()', '=AVERAGE(A1:1)', '=STDEV(A3:B3)']
+		['=PI()', '=AVERAGE(A1:1)', '=STDEV(A3:B3)'],
+		['=TRUE', '=IF(A4,"true","false")', '=IF(GET(B1, C1), B1, C1)'],
 	];
 
-	var result = [[], [], []];
+	var result = [[], [], [], []];
 
 	return {
 		get : function (i, j) {
