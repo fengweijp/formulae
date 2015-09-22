@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 
 		<script src="utils.js"></script>
+		<script src="error.js"></script>
 		<script src="tableAccess.js"></script>
 		<script src="cells.js"></script>
 		<script src="parser.js"></script>
@@ -16,7 +17,11 @@
 
 		<script>
 			console.log(Formulae.tableAccess.table);
-			Formulae.tree();
+			try {
+				Formulae.tree();
+			} catch (ex) {
+				console.log(ex);
+			}
 			console.log(Formulae.tableAccess.result);
 		</script>
 	</head>

@@ -5,10 +5,7 @@ Formulae.main = (function () {
 	var f = Formulae;
 
 	var evaluate = function (value) {
-		if (value[0] !== '=') {
-			throw 'Invalid value; should start with "="';
-		}
-		var result = f.parseExpression(value.substr(1));
+		var result = f.parseExpression(value);
 		return unravel(result);
 	};
 
@@ -25,9 +22,13 @@ Formulae.main = (function () {
 
 		var fn = f.fn[name.toLowerCase()];
 		if (!fn) {
-			throw 'Invalid function name "' + name + '".';
+			Formulae.errors.fn(name, { message : 'unknown_function' });
 		}
-		return fn(args);
+		try {
+			return fn(args);
+		} catch (ex) {
+			Formulae.errors.fn(name, ex);
+		}
 	};
 
 	return {

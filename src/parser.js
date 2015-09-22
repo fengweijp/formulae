@@ -13,7 +13,7 @@ Formulae.parseExpression = (function () {
 
 		if (arg[0] === '"') {
 			if (arg[arg.length - 1] != '"') {
-				throw 'Weird string here! Should end with "';
+				Formulae.errors.message('string_should_end_with_quote');
 			}
 			return arg.substr(1, arg.length - 2);
 		}
@@ -30,7 +30,7 @@ Formulae.parseExpression = (function () {
 			return Formulae.cells.lazy.interval(arg);
 		}
 
-		throw 'This is not a number, string, boolean, nor cell ref. What the hell is "' + arg + '"?';
+		Formulae.errors.message('what_is_this', arg);
 	};
 
 	var parseExpression = function (exp) {
@@ -43,10 +43,10 @@ Formulae.parseExpression = (function () {
 
 	var parseFormula = function (formula) {
 		if (formula[formula.length - 1] !== ')') {
-			throw 'Invalid formula; should end with ")"';
+			Formulae.errors.message('formula_should_end_with_closing_bracket');
 		}
 		if (formula.indexOf('(') === -1) {
-			throw 'Invalid formula; should contain "("';
+			Formulae.errors.message('formula_should_contains_opening_bracket');
 		}
 
 		var i, fn = formula.substr(0, formula.length - 1);
@@ -81,7 +81,7 @@ Formulae.parseExpression = (function () {
 					currentArg += c;
 				} else if (c === ')') {
 					if (deepnessCount === 0) {
-						throw 'Cannot close ) without opening it.';
+						Formulae.errors.message('unbalanced_bracket');
 					}
 					currentArg += c;
 					deepnessCount--;
@@ -97,7 +97,7 @@ Formulae.parseExpression = (function () {
 			}
 		}
 		if (stringMode || escapeNext) {
-			throw 'Invalid formula, string left open.';
+			Formulae.errors.message('string_should_end_with_quote');
 		}
 		if (currentArg) {
 			args.push(currentArg.trim());

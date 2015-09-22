@@ -8,25 +8,25 @@ Formulae.fn = (function () {
 
 	var assertArgsAtLeast = function (args, amount) {
 		if (args.length < amount) {
-			throw 'Wrong number of arguments for function; should be at least ' + amount + ', found ' + args.length;
+			Formulae.errors.message('wrong_number_of_args_at_least', amount, args.length);
 		}
 	};
 
 	var assertArgs = function (args, amount) {
 		if (args.length != amount) {
-			throw 'Wrong number of arguments for function; should be ' + amount + ', found ' + args.length;
+			Formulae.errors.message('wrong_number_of_args', amount, args.length);
 		}
 	};
 
 	var assertNumber = function(el) {
 		if (typeof el !== 'number') {
-			throw 'Formula works only with numbers...';
+			Formulae.errors.message('wrong_arg_should_be_number', el);
 		}
 	};
 
 	var assertBool = function (el) {
 		if (typeof el !== 'boolean') {
-			throw 'Formula works only with booleans...';
+			Formulae.errors.message('wrong_arg_should_be_boolean', el);
 		}
 	};
 

@@ -20,7 +20,13 @@ Formulae.tree = (function () {
 			var content = Formulae.tableAccess.get(i, j);
 			if (content[0] === '=') {
 				started[cell] = true;
-				var result = Formulae.parseExpression(content.substr(1));
+				var result;
+				try {
+					result = Formulae.parseExpression(content.substr(1));
+				} catch (ex) {
+					Formulae.errors.cell(cell, ex);
+				}
+
 				var dependencies = Formulae.utils.flatten(result).filter(function (el) {
 					return typeof el === 'function';
 				}).map(function (fn) {
@@ -29,14 +35,18 @@ Formulae.tree = (function () {
 				dependencies.forEach(function (dep) {
 					if (typeof resolved[dep] === 'undefined') {
 						if (started[dep]) {
-							throw 'Warning! Cyclic dependency! Cells ' + cell + ' and ' + dep + ' are directly or inderctly linked cyclic.';
+							Formulae.errors.cell(cell, { message : 'cyclic_dependency', args: [ dep ] });
 						}
 						var arr = Formulae.cells.cellToArray(dep);
 						resolve(arr[0], arr[1]);
 					}
 				});
 
-				content = Formulae.main.unravel(result);
+				try {
+					content = Formulae.main.unravel(result);
+				} catch (ex) {
+					Formulae.errors.cell(cell, ex);
+				}
 			}
 			Formulae.tableAccess.set(i, j, content);
 			resolved[cell] = content;
