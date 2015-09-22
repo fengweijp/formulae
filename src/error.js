@@ -22,6 +22,12 @@ Formulae.errors = (function () {
 		this.args = args;
 	};
 
+	var format = function (pattern, args) {
+		return pattern.replace(/{(\d+)}/g, function(match, number) {
+			return typeof args[number] !== 'undefined' ? args[number]  : match;
+		});
+	};
+
 	return {
 		cell : function (cell, fn) {
 			throw new exceptions.cell(cell, fn);
@@ -34,6 +40,8 @@ Formulae.errors = (function () {
 		message : function (message, args) {
 			throw new exceptions.message(message, args);
 		},
+
+		format : format,
 
 		messages : {
 			string_should_end_with_quote : 'Weird string here! Should end with a quote.',
