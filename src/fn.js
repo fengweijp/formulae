@@ -8,25 +8,25 @@ Formulae.fn = (function () {
 
 	var assertArgsAtLeast = function (args, amount) {
 		if (args.length < amount) {
-			Formulae.errors.message('wrong_number_of_args_at_least', amount, args.length);
+			Formulae.errors.message('wrong_number_of_args_at_least', [amount, args.length]);
 		}
 	};
 
 	var assertArgs = function (args, amount) {
 		if (args.length != amount) {
-			Formulae.errors.message('wrong_number_of_args', amount, args.length);
+			Formulae.errors.message('wrong_number_of_args', [amount, args.length]);
 		}
 	};
 
 	var assertNumber = function(el) {
 		if (typeof el !== 'number') {
-			Formulae.errors.message('wrong_arg_should_be_number', el);
+			Formulae.errors.message('wrong_arg_should_be_number', [el]);
 		}
 	};
 
 	var assertBool = function (el) {
 		if (typeof el !== 'boolean') {
-			Formulae.errors.message('wrong_arg_should_be_boolean', el);
+			Formulae.errors.message('wrong_arg_should_be_boolean', [el]);
 		}
 	};
 

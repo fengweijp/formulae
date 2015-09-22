@@ -30,7 +30,7 @@ Formulae.parseExpression = (function () {
 			return Formulae.cells.lazy.interval(arg);
 		}
 
-		Formulae.errors.message('what_is_this', arg);
+		Formulae.errors.message('what_is_this', [arg]);
 	};
 
 	var parseExpression = function (exp) {
