@@ -1,0 +1,6 @@
+# TODO delete this file, build with grunt/bower/etc
+
+echo 'define(function(){' > formulae.js
+cat src/utils.js >> formulae.js # fix even more pog, this must be added first
+cat src/*.js >> formulae.js
+echo 'return Formulae;})' >> formulae.js
