@@ -52,9 +52,6 @@ Formulae.cells = (function () {
 
 	var expand = function (interval) {
 		var borders = interval.toUpperCase().split(':');
-		console.log(f.utils.transpose(borders.map(function (b) {
-			return permissiveCellToArray(b);
-		})));
 		var it = f.utils.transpose(borders.map(function (b) {
 			return permissiveCellToArray(b);
 		})).map(function (r) {
