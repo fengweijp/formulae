@@ -12,44 +12,53 @@ Formulae.tree = (function () {
 		};
 
 		var resolve = function (i, j) {
-			var cell = Formulae.cells.toCell(i, j);
+			var cell = Formulae.cells.toCell(i, j), content;
 			if (resolved[cell]) {
 				return;
 			}
 
-			var content = Formulae.tableAccess.get(i, j);
-			if (content[0] === '=') {
-				started[cell] = true;
-				var result;
-				try {
-					result = Formulae.parseExpression(content.substr(1));
-				} catch (ex) {
-					Formulae.errors.cell(cell, ex);
-				}
-
-				var dependencies = Formulae.utils.flatten(result).filter(function (el) {
-					return typeof el === 'function';
-				}).map(function (fn) {
-					return fn.cell;
-				});
-				dependencies.forEach(function (dep) {
-					if (typeof resolved[dep] === 'undefined') {
-						if (started[dep]) {
-							Formulae.errors.cell(cell, { message : 'cyclic_dependency', args: [ dep ] });
-						}
-						var arr = Formulae.cells.cellToArray(dep);
-						resolve(arr[0], arr[1]);
-					}
-				});
-
-				try {
-					content = Formulae.main.unravel(result);
-				} catch (ex) {
-					Formulae.errors.cell(cell, ex);
-				}
-			}
+			started[cell] = true;
+			content = resolveContent(i, j, cell);
 			Formulae.tableAccess.set(i, j, content);
 			resolved[cell] = content;
+		};
+
+		var resolveContent = function (i, j, cell) {
+			var content = Formulae.tableAccess.get(i, j);
+			if (content[0] !== '=') {
+				return content;
+			}
+
+			var result;
+			try {
+				result = Formulae.parseExpression(content.substr(1));
+			} catch (ex) {
+				return Formulae.errors.cell(cell, ex);
+			}
+
+			var dependencies = Formulae.utils.flatten(result).filter(function (el) {
+				return typeof el === 'function';
+			}).map(function (fn) {
+				return fn.cell;
+			});
+			dependencies.forEach(function (dep) {
+				if (typeof resolved[dep] === 'undefined') {
+					if (started[dep]) {
+						return Formulae.errors.cell(cell, { message : 'cyclic_dependency', args: [ dep ] });
+					}
+					var arr = Formulae.cells.cellToArray(dep);
+					resolve(arr[0], arr[1]);
+				}
+				if (Formulae.tree.cache.isError) {
+					return Formulae.errors.cell(cell, { message : 'error_in_dependency', args: [ dep ] });
+				}
+			});
+
+			try {
+				return Formulae.main.unravel(result);
+			} catch (ex) {
+				return Formulae.errors.cell(cell, ex);
+			}
 		};
 
 		for (i = 1; i <= Formulae.tableAccess.columns(); i++) {

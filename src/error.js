@@ -9,6 +9,7 @@ Formulae.errors = (function () {
 		this.fn = fn.fn;
 		this.message = fn.message;
 		this.args = fn.args;
+		this.isError = true;
 	};
 
 	exceptions.fn = function (fn, message) {
@@ -30,7 +31,7 @@ Formulae.errors = (function () {
 
 	return {
 		cell : function (cell, fn) {
-			throw new exceptions.cell(cell, fn);
+			return new exceptions.cell(cell, fn);
 		},
 
 		fn : function (fn, message) {
@@ -54,7 +55,8 @@ Formulae.errors = (function () {
 			wrong_arg_should_be_number : 'Wrong argument: should be number, found "{0}".',
 			wrong_arg_should_be_boolean : 'Wrong argument: should be boolean, found "{0}".',
 			unknown_function : 'Unknown function',
-			cyclic_dependency : 'Cyclic dependency (direct or indirect) with other cell {0}.'
+			cyclic_dependency : 'Cyclic dependency (direct or indirect) with other cell {0}.',
+			error_in_dependency : 'There is an error in the dependency {0}.'
 		}
 	};
 })();
