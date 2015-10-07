@@ -42,14 +42,14 @@ Formulae.tree = (function () {
 				return fn.cell;
 			});
 			dependencies.forEach(function (dep) {
+				var arr = Formulae.cells.cellToArray(dep);
 				if (typeof resolved[dep] === 'undefined') {
 					if (started[dep]) {
 						return Formulae.errors.cell(cell, { message : 'cyclic_dependency', args: [ dep ] });
 					}
-					var arr = Formulae.cells.cellToArray(dep);
 					resolve(arr[0], arr[1]);
 				}
-				if (Formulae.tree.cache.isError) {
+				if (Formulae.tree.cache(arr[0], arr[1]).isError) {
 					return Formulae.errors.cell(cell, { message : 'error_in_dependency', args: [ dep ] });
 				}
 			});
