@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Formulae Tests</title>
+		<meta charset="UTF-8">
+
+		<script src="node_modules/requirejs/require.js"></script>
+
+		<script>
+			requirejs.config({ baseUrl: './src' });
+			require(['index'], function (Formulae) {
+				require(['tableAccessMock'], function (_mock) {
+					console.log(Formulae.tableAccess.table);
+					try {
+						Formulae.tree();
+					} catch (ex) {
+						console.log(ex);
+					}
+					console.log(Formulae.tableAccess.result);
+				});
+			});
+		</script>
+
+	</head>
+	<body>
+	</body>
+</html>

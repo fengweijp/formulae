@@ -1,11 +1,11 @@
-var Formulae = Formulae || {};
-
-Formulae.main = (function () {
-
-	var f = Formulae;
+define(function (require) {
+	var errors = require('errors');
+	var parser = require('parser');
+	var utils = require('utils');
+	var fns = require('fn');
 
 	var evaluate = function (value) {
-		var result = f.parseExpression(value);
+		var result = parser.parseExpression(value);
 		return unravel(result);
 	};
 
@@ -18,23 +18,21 @@ Formulae.main = (function () {
 		}
 
 		var name = result.shift();
-		var args = f.utils.flatten(result.map(unravel));
+		var args = utils.flatten(result.map(unravel));
 
-		var fn = f.fn[name.toLowerCase()];
+		var fn = fns[name.toLowerCase()];
 		if (!fn) {
-			Formulae.errors.fn(name, { message : 'unknown_function' });
+			errors.fn(name, { message : 'unknown_function' });
 		}
 		try {
 			return fn(args);
 		} catch (ex) {
-			Formulae.errors.fn(name, ex);
+			errors.fn(name, ex);
 		}
 	};
-
+	
 	return {
 		evaluate : evaluate,
 		unravel : unravel
 	};
-})();
-
-Formulae.evaluate = Formulae.main.evaluate;
+});

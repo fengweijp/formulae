@@ -23,5 +23,8 @@
   ],
   "devDependencies": {
     "qunit": "~1.16.0"
+  },
+  "dependencies": {
+    "requirejs": "~2.1.20"
   }
 }
