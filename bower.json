@@ -19,7 +19,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
+    "test"
   ],
   "devDependencies": {
     "qunit": "~1.16.0"
