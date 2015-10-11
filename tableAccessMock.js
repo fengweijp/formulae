@@ -1,4 +1,4 @@
-define(function () {
+define(function (require) {
 	var tableAccess = (function () {
 
 		var table = [

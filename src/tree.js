@@ -2,34 +2,31 @@ define(function (require) {
 
 	var main = require('main');
 	var errors = require('errors');
-	var tableAccess = require('tableAccess');
-	var cells = require('cells');
+	var cells_base = require('cells');
 	var parser = require('parser');
 	var utils = require('utils');
 
-	var tree = (function () {
+	var tree = function (tableAccess) {
 
 		var that = this;
 
 		var transverser = function () {
 			var i, j, d;
 			var started = {};
-			var resolved = {};
-	
-			var cache = that.cache = function (i, j) {
-				return resolved[cells.toCell(i, j)];
-			};
+
+			var cells = cells_base(tableAccess);
+			cells.cache.clear();
 	
 			var resolve = function (i, j) {
 				var cell = cells.toCell(i, j), content;
-				if (resolved[cell]) {
+				if (cells.cache.get(i, j)) {
 					return;
 				}
 	
 				started[cell] = true;
 				content = resolveContent(i, j, cell);
 				tableAccess.set(i, j, content);
-				resolved[cell] = content;
+				cells.cache.set(i, j, content);
 			};
 	
 			var resolveContent = function (i, j, cell) {
@@ -40,7 +37,7 @@ define(function (require) {
 	
 				var result;
 				try {
-					result = parser.parseExpression(content.substr(1));
+					result = parser(cells).parseExpression(content.substr(1));
 				} catch (ex) {
 					return errors.cell(cell, ex);
 				}
@@ -54,13 +51,13 @@ define(function (require) {
 				try {
 					dependencies.forEach(function (dep) {
 						var arr = cells.cellToArray(dep);
-						if (typeof resolved[dep] === 'undefined') {
+						if (typeof cells.cache.get(arr[0], arr[1]) === 'undefined') {
 							if (started[dep]) {
 								throw errors.cell(cell, { message : 'cyclic_dependency', args: [ dep ] });
 							}
 							resolve(arr[0], arr[1]);
 						}
-						if (cache(arr[0], arr[1]).isError) {
+						if (cells.cache.get(arr[0], arr[1]).isError) {
 							throw errors.cell(cell, { message : 'error_in_dependency', args: [ dep ] });
 						}
 					});
@@ -69,7 +66,7 @@ define(function (require) {
 				}
 	
 				try {
-					return main.unravel(result);
+					return main(tableAccess).unravel(result);
 				} catch (ex) {
 					return errors.cell(cell, ex);
 				}
@@ -84,7 +81,7 @@ define(function (require) {
 	
 		return transverser;
 	
-	})();
+	};
 
 	return tree;
 });

@@ -1,28 +1,33 @@
 define(function (require) {
 
-	var main = require('main');
-	var tree = require('tree');
+	var main_base = require('main');
+	var tree_base = require('tree');
 
 	var cells = require('cells');
 	var errors = require('errors');
 	var fn = require('fn');
 	var parser = require('parser');
-	var tableAccess = require('tableAccess');
+	var tableAccessMock = require('tableAccess');
 	var utils = require('utils');
 
-	var Formulae = {
-		tree : tree,
-		evaluate : main.evaluate,
-		unravel : main.unravel,
+	return function (tableAccess) {
+		tableAccess = tableAccess || tableAccessMock;
 
-		cells : cells,
-		errors : errors,
-		fn : fn,
-		parser : parser,
-		tableAccess : tableAccess,
-		utils : utils
+		var tree = tree_base(tableAccess);
+		var main = main_base(tableAccess);
+
+		return {
+			tree : tree,
+			evaluate : main.evaluate,
+			unravel : main.unravel,
+	
+			tableAccess : tableAccess,
+			errors : errors,
+			fn : fn,
+			parser : parser,
+			utils : utils
+		};
+
 	};
-
-	return Formulae;
 
 });

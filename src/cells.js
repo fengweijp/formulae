@@ -1,8 +1,8 @@
 define(function (require) {
-	var tree = require('tree');
-	var tableAccess = require('tableAccess');
 
-	var cells = (function () {
+	var utils = require('utils');
+
+	var cells = function (tableAccess) {
 
 		var singleFrom = function (cell, from) {
 			var a = cellToArray(cell);
@@ -99,13 +99,28 @@ define(function (require) {
 		var lazy = {
 			single : function (cell) {
 				var r =  function () {
-					return singleFrom(cell, tree.cache);
+					return singleFrom(cell, cache_fns.get);
 				};
 				r.cell = cell;
 				return r;
 			},
 			interval : function (str) {
 				return ['splat'].concat(expand(str).map(lazy.single));
+			}
+		};
+
+		var cache = {};
+		var cache_fns = {
+			clear : function () {
+				cache = {};
+			},
+			get : function(i, j) {
+				console.log('cache get', i, j, cache[toCell(i, j)]);
+				return cache[toCell(i, j)];
+			},
+			set : function(i, j, value) {
+				console.log('cache set', i, j, value);
+				cache[toCell(i, j)] = value;
 			}
 		};
 	
@@ -117,9 +132,10 @@ define(function (require) {
 			toLetters : toLetters,
 			toCell : toCell,
 			cellToArray : cellToArray,
-			lazy : lazy
+			lazy : lazy,
+			cache : cache_fns
 		};
-	})();
+	};
 
 	return cells;
 });

@@ -1,8 +1,7 @@
 define(function (require) {
-	var cells = require('cells');
 	var errors = require('errors');
 	
-	var parser = (function () {
+	var parser = function (cells) {
 	
 		var parsePrimitive = function (arg) {
 			if (arg.trim().toLowerCase() === 'true') {
@@ -107,8 +106,10 @@ define(function (require) {
 			return [fnName].concat(args.map(parseExpression));
 		};
 	
-		return parseExpression;
-	})();
+		return {
+			parseExpression : parseExpression
+		};
+	};
 
 	return parser;
 });

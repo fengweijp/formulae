@@ -8,8 +8,9 @@
 
 		<script>
 			requirejs.config({ baseUrl: './src' });
-			require(['index'], function (Formulae) {
-				require(['tableAccessMock'], function (_mock) {
+			require(['index'], function (Formulae_base) {
+				require(['../tableAccessMock'], function (mockedFormulae) {
+					var Formulae = Formulae_base(mockedFormulae);
 					console.log(Formulae.tableAccess.table);
 					try {
 						Formulae.tree();
@@ -17,11 +18,23 @@
 						console.log(ex);
 					}
 					console.log(Formulae.tableAccess.result);
+					var html = '<table>';
+					Formulae.tableAccess.result.map(function (r) {
+						html += '<tr>';
+						r.map(function (c) {
+							if (c.isError) console.log(c);
+							html += '<td>' + c + '</td>';
+						});
+						html += '</tr>';
+					});
+					html + '</table>';
+					document.getElementById('table').innerHTML = html;
 				});
 			});
 		</script>
 
 	</head>
 	<body>
+		<div id="table"></div>
 	</body>
 </html>
