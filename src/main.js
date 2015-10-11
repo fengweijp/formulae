@@ -23,7 +23,6 @@ define(function (require) {
 	
 			var name = result.shift();
 			var args = utils.flatten(result.map(unravel));
-			console.log(name, args);
 	
 			var fn = fns[name.toLowerCase()];
 			if (!fn) {

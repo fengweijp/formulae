@@ -4,12 +4,12 @@
 		<title>Formulae Tests</title>
 		<meta charset="UTF-8">
 
-		<script src="node_modules/requirejs/require.js"></script>
+		<script src="../node_modules/requirejs/require.js"></script>
 
 		<script>
-			requirejs.config({ baseUrl: './src' });
+			requirejs.config({ baseUrl: '../src' });
 			require(['index'], function (Formulae_base) {
-				require(['../tableAccessMock'], function (mockedFormulae) {
+				require(['../test/tableAccessMock'], function (mockedFormulae) {
 					var Formulae = Formulae_base(mockedFormulae);
 					console.log(Formulae.tableAccess.table);
 					try {

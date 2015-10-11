@@ -115,11 +115,9 @@ define(function (require) {
 				cache = {};
 			},
 			get : function(i, j) {
-				console.log('cache get', i, j, cache[toCell(i, j)]);
 				return cache[toCell(i, j)];
 			},
 			set : function(i, j, value) {
-				console.log('cache set', i, j, value);
 				cache[toCell(i, j)] = value;
 			}
 		};
